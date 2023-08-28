@@ -1,14 +1,11 @@
 #include<stdio.h>
 
-
-
 /**
- * main _ Entry point
+ * main - Entry point
  * Description: write a program that prints all possible
  * different combinations of two digits
  * Return: 0
 */
-
 
 int main(void)
 
