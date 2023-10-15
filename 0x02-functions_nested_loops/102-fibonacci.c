@@ -6,7 +6,7 @@
 */
 int main(void)
 {
-int terml = 1;
+int term1 = 1;
 int term2 = 2;
 int next;
 int i;
