@@ -18,5 +18,6 @@ sum = x + y;
 x = y;
 y = sum;
 }
+printf("%ld\n", tsum);
 return (0);
 }
