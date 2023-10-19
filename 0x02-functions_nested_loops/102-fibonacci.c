@@ -1,26 +1,27 @@
+#include "main.h"
 #include <stdio.h>
 
 /**
- * main - program to find first 50 fibonacci number
- * Return: 0
+ * main - Entry point
+ *
+ * Description: prints the first 50 fibonacci numbers
+ *              starting with 1 and 2 folled by a new line
+ *
+ * Return: Always 0 (Success)
 */
 
 int main(void)
 {
-int term1 = 1;
-int term2 = 2;
-int next;
-int i;
-
-printf("%d, ", term1);
-for (i = 1 ; i < 50 ; i++)
+int count;
+unsigned long fib1 = 0, fib2 = 1, sum;
+for (count = 0; count < 50; count++)
 {
-printf("%d", term2);
-next = term1 + term2
-;
-term1 = term2;
-term2 = next;
-}
+sum = fib1 + fib2;
+fib2 = sum;
+if (count == 49)
 printf("\n");
+else
+printf(", ");
+}
 return (0);
 }
