@@ -17,7 +17,8 @@ for (i = 1 ; i < 50 ; i++)
 {
 printf("%d", term2);
 next = term1 + term2
-;term1 = term2;
+;
+term1 = term2;
 term2 = next;
 }
 printf("\n");
