@@ -20,7 +20,7 @@ return (haystack);
 while (*haystack)
 {
 index = 0;
-if (haystack[index] == needle [index])
+if (haystack[index] == needle[index])
 {
 do {
 if (needle[index + 1] == '\0')
