@@ -1,9 +1,9 @@
 #include "main.h"
 
 /**
- * _sqrt_ recursion - find natural square root
+ * _sqrt_recursion - find natural square root
  * @n: int
- * @val: square root
+ * @va1: square root
  * Return: int
 */
 int square(int n, int va1);
@@ -15,7 +15,7 @@ return (square(n, 1));
 /**
  * square - find square root
  * @n: int to find square root
- * @val: square root
+ * @va1: square root
  * Return: int
 */
 
