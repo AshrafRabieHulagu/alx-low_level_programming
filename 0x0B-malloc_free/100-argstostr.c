@@ -16,7 +16,7 @@ return (size);
 }
 
 /**
- * *argstorstr - description
+ * *argstostr - description
  * @ac: int
  * @av: arguments
  * Return: string
