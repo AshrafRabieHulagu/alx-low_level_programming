@@ -14,7 +14,7 @@ int i = n;
 char *str;
 va_list ap;
 
- if (!n)
+if (!n)
 {
 printf("\n");
 return;
