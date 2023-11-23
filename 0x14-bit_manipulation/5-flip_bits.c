@@ -16,7 +16,7 @@ unsigned int count = 0;
 while (xorval)
 {
 if (xorval & 1ul)
-count ++;
+count++;
 xorval = xorval >> 1;
 }
 return (count);
