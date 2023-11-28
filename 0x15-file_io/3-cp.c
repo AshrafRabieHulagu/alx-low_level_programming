@@ -58,6 +58,7 @@ dprintf(STDERR_FILENO, "Error: can't close fd %d\n", file_from);
 exit(100);
 }
 err_close = close(file_to);
+if (err_close == -1)
 {
 dprintf(STDERR_FILENO, "Error: can't close fd %d\n", file_to);
 exit(100);
