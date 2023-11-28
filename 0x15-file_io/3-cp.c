@@ -8,7 +8,7 @@
 
 /**
  * main - program
- * @av: argument count
+ * @ac: argument count
  * @av: argument vector
  *
  * Return: 1 on success 0 on failure
