@@ -1,67 +1,71 @@
-#include "main.h"
 #include <stdio.h>
-/**
- * error_file - check if a file is opened and handle errors
- * @file_from: initial file to copy from and to check
- * @file_to: destination file to copy to
- * @argv: argument vector
- * Return: no return
-*/
-void error_file(int file_from, int file_to, char *argv[])
-{
-if (file_from == -1)
-{
-dprintf(STDERR_FILENO, "Error: can't read from file %s\n", argv[1]);
-exit(98);
-}
-if (file_to == -1)
-{
-dprintf(STDERR_FILENO, "Error: can't write to %s\n", argv[2]);
-perror("int 99");
-}
-}
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <unistd.h>
 
+void check_IO_stat(int stat, int fd, char *filename, char mode);
 /**
- * main - copy content of a file from one to another
- * @argc: argument count
- * @argv: argument vector
- * Return: 0 on success.
+ * main - funct copies the content of one file to another
+ * @argc: The argument count
+ * @argv: The arguments passed
+ *
+ * Return: 1 on success, exit otherwise
 */
 int main(int argc, char *argv[])
 {
-int file_from, file_to, err_close;
-ssize_t nchars, nwr;
-char buf[1024];
-
+int src, dest, n_read = 1024, wrote, close_src, close_dest;
+unsigned int mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
+char buffer[1024];
 if (argc != 3)
 {
-dprintf(STDERR_FILENO, "%s\n", "Usage: cp file_from file_to");
+dprintf(STDERR_FILENO, "%s", "Usage: cp file_from file_to\n");
 exit(97);
 }
-file_from = open(argv[1], O_RDONLY);
-file_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0664);
-error_file(file_from, file_to, argv);
-nchars = 1024;
-while (nchars == 1024)
+src = open(argv[1], O_RDONLY);
+check_IO_stat(src, -1, argv[1], 'O');
+dest = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, mode);
+check_IO_stat(dest, -1, argv[2], 'W');
+while (n_read == 1024)
 {
-nchars = read(file_from, buf, 1024);
-if (nchars == -1)
-error_file(-1, 0, argv);
-nwr = write(file_to, buf, 1024);
-if (nwr == -1)
-error_file(0, -1, argv);
+n_read = read(src, buffer, sizeof(buffer));
+if (n_read == -1)
+check_IO_stat(-1, -1, argv[1], 'O');
+wrote = write(dest, buffer, n_read);
+if (wrote == -1)
+check_IO_stat(-1, -1, argv[2], 'W');
 }
-err_close = close(file_from);
-if (err_close == -1)
-{
-dprintf(STDERR_FILENO, "Error: can't close fd %d\n", file_from);
-exit(100);
-}
-err_close = close(file_to);
-if (err_close == -1)
-{
-dprintf(STDERR_FILENO, "Error: can't close fd %d\n", file_to);
-exit(100);
-}
+close_src = close(src);
+check_IO_stat(close_src, src, NULL, 'C');
+close_dest = close(dest);
+check_IO_stat(close_dest, dest, NULL, 'C');
 return (0);
+}
+/**
+ * check_IO_stat - funct checks if a file can be opened or closed
+ * @stat: file descriptor of file to be opened
+ * @filename: name of file
+ * @mode: closing or opening
+ * @fd: file descriptor
+ *
+ * Return: void
+*/
+void check_IO_stat(int stat, int fd, char *filename, char mode)
+{
+if (mode == 'C' && stat == -1)
+{
+dprintf(STDERR_FILENO, "Error: can't close fd %d\n", fd);
+exit(100);
+}
+else if (mode == 'O' && stat == -1)
+{
+dprintf(STDERR_FILENO, "Error: can't read from file %s\n", filename);
+exit(98);
+}
+else if (mode == 'W' && stat == -1)
+{
+dprintf(STDERR_FILENO, "Error: can't write to %s\n", filename);
+exit(99);
+}
 }
